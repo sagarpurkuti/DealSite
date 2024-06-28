@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Breadfruit Deals
+{% endblock %}
+
+{% block logout %}
+<a class="nav-link" href="/dashboard">Dashboard</a>
+{% endblock logout %}
+
+{% block deals %}
+<style>
+    * {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .deal-image {
+        width: 100%;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+        color: #000;
+        font-size: 2.2em;
+        font-weight: 800;
+        margin-bottom: 30px;
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        background-color: #fff;
+        width: 13.25em;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        padding: 25px;
+        margin: 15px;
+        transition: 0.7s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.1);
+    }
+
+    .icon {
+        color: #5e41ff;
+        font-size: 8em;
+        text-align: center;
+    }
+
+    .info {
+        text-align: center;
+    }
+
+    .info h3 {
+        color: #000;
+        font-size: 1.2em;
+        font-weight: 700;
+        margin: 10px;
+    }
+
+    .info p {
+        font-size: 1em;
+    }
+
+    .coupon-code {
+        background-color: #55acee;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 1023px) {
+        .title {
+            font-size: 1.8em;
+        }
+
+        .content {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 641px) {
+        body {
+            font-size: 12px;
+        }
+
+        .info h3 {
+            font-size: 1.4em;
+        }
+    }
+</style>
+
+
+<section class="cards" id="services">
+    <h2 class="title">Exclusive Deals</h2>
+
+    <div class="content">
+        {% for deal in deals %}
+        <div class="card">
+            <a href="{{deal.url}}" target="_blank">
+                <img class="deal-image" src="{{deal.images.url}}"  >
+            </a>
+            <div class="info">
+                <h3 class="deal-title">{{deal.title}}</h3>
+                <p class="deal-description">{{deal.description}}</p>
+                <div class="coupon-code">{{deal.code}}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- <div class="col-md-3">
+                <button class="copy-button" onclick="copyToClipboard('')">Copy Code</button>
+                <br>
+                <button class="review-button" onclick="toggleReviewSection('<?= $items['id'] ?>')">Review</button>
+            </div> -->
+
+
+
+    </div>
+</section>
+
+{% endblock deals %}

@@ -1,0 +1,125 @@
+
+{% extends 'admin.html' %}
+
+{% block title %}
+Seller Dashboard
+{% endblock title %}
+
+{% block view %}
+<style>
+    .add-deal-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .container{
+        text-align: right;
+        margin-top: 20px;
+    }
+    
+    table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-left: 20px;
+            }
+
+            th, td {
+              padding: 15px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+
+            }
+
+            th {
+              background-color: #99bde4; /* Blue */
+              color: black;
+              border-radius: 2px;
+            }
+
+            tr:hover {
+              background-color: #f2f2f2; /* Light gray */
+            }
+
+</style>
+
+<section class="home">
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {% endif %}
+    <div class="text">Welcome Admin</div>
+      
+
+    <!-- Add deal container -->
+    <div class="container">
+        <a href="{% url 'addDeal' %}">
+            <button class="add-deal-button">ADD DEAL</button>
+        </a>
+    </div>
+
+
+
+      <h1 class="text" style="margin-left: 20px;">Active Deals:</h1>
+      
+      <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Images</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>url</th>
+                <th>Actions</th>
+            </tr>
+            {% for deal in deals %}
+            <tr>
+                <td><img class="deal-image" src="{{deal.images.url}}" height="100px" width="100px"></td>
+                <td>{{ deal.title}}</td>
+                <td>{{ deal.description }}</td>
+                <td>{{ deal.code }}</td>
+                <td><a href="{{deal.url}}" target="_blank">{{deal.url}}</a></td>
+                <td>
+                  <!-- Edit button -->
+                  <a href="{% url 'edit_deal' deal.id %}" class="sssaction-btn edit-btn" id="editButton">Edit</a>
+                  <!-- Delete button -->
+                  <a href="{% url 'delete_deal' deal.id %}" class="action-btn delete-btn">Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+        </table>
+      </div> 
+
+
+
+
+</section>
+{% endblock view %}
+
+
+
+  
+
+  
+
+
+
+
+
+
+
+
+

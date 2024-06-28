@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+contact
+{% endblock title %}
+
+{% block body %}
+
+<div class="container mb-3 py-4">
+    <h1 class="text-center">Contact us</h1>
+    <form method="POST" action="/contact">
+        {% csrf_token %}
+
+        <!---name is the attribute on how django will recognize-->
+
+        <div class="form-group center">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+        </div>
+       
+        <div class="form-group center">
+            <label for="email">email:</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone number:</label>
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="+977">
+        </div>
+
+
+        <div class="form-group">
+            <label for="desc">Tell us what you want to say:</label>
+            <textarea class="form-control" id="desc" rows="3" name="desc"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock body %}

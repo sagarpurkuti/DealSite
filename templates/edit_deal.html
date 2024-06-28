@@ -1,0 +1,63 @@
+{% extends 'admin.html' %}
+
+{% block title %}
+Edit and update page
+{% endblock title %}
+
+
+{% block body%}
+<!-- Edit Deal Form -->
+<section class="home">
+
+    <form id="editDealForm" method="POST" enctype="multipart/form-data" style=" margin-left:100px; margin-right: 100px;">
+        <h1>Please perform your edit and Update</h1>
+
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="edit_title" class="form-label">Title:</label>
+            <input value="{{deal.title}}" type="text" class="form-control" id="edit_title" name="title" >
+        </div>
+
+        <div class="mb-3">
+            <label for="edit_description" class="form-label">Description:</label>
+            <textarea  class="form-control" id="edit_description" name="description" >{{deal.description}}</textarea>
+        </div>
+
+        <!-- <div class="mb-3">
+            <label for="edit_images" class="form-label">Images:</label>
+            <input type="file" class="form-control" id="edit_images" name="images">
+        </div> -->
+
+        <div class="mb-3">
+            <label for="edit_images" class="form-label">Current Image:</label>
+            {% if deal.images %}
+                <div>
+                    <img src="{{ deal.images.url }}" alt="Current Image" style="max-width: 200px; max-height: 200px;">
+                </div>
+            {% else %}
+                <p>No image uploaded.</p>
+            {% endif %}
+            <label for="edit_images" class="form-label mt-2">Upload New Image:</label>
+            <input type="file" class="form-control" id="edit_images" name="images">
+        </div>
+        
+        <div class="mb-3">
+            <label for="edit_code" class="form-label">Code:</label>
+            <textarea class="form-control" id="edit_code" name="code">{{deal.code}}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="edit_Url" class="form-label">URL:</label>
+            <textarea class="form-control" id="edit_url" name="link">{{deal.url}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+    </form>
+</section>
+
+{% endblock %}
+
+    

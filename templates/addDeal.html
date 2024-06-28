@@ -1,0 +1,36 @@
+{% extends './admin.html' %}
+
+{% block title %}
+Seller Dashboard
+{% endblock title %}
+
+
+{% block body %}
+<section class="home">
+     <form  method="POST"  enctype="multipart/form-data" style=" margin-left:100px; margin-right: 100px;">
+        <h1 class="text">Hurray, New Deals!</h1>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea class="form-control" id="description" name="description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="images" class="form-label">Images:</label>
+            <input type="file" class="form-control" id="images" name="images">
+        </div>
+        <div class="mb-3">
+            <label for="code" class="form-label">Code:</label>
+            <textarea class="form-control" id="code" name="code"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="url" class="form-label">URL:</label>
+            <textarea class="form-control" id="url" name="link"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
+{% endblock body %}

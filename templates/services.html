@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block services %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - DealSite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin: 20px 0;
+        }
+        .section h2 {
+            color: #007bff;
+        }
+        .cta {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Welcome to DealSite</h1>
+    <p>Your one-stop platform for the best online deals</p>
+</div>
+
+<div class="container">
+    <div class="section">
+        <h2>About DealSite</h2>
+        <p>DealSite is a comprehensive platform where users can find and compare the best deals from various e-commerce platforms. Whether you're looking for the latest gadgets, fashion, or home essentials, DealSite brings the best offers right to your fingertips. Sellers can also list their deals on our platform, reaching a wider audience and boosting their sales.</p>
+    </div>
+
+    <div class="section">
+        <h2>Benefits for Users</h2>
+        <ul>
+            <li>Access to a wide range of deals from multiple e-commerce platforms</li>
+            <li>Easy comparison of prices and discounts</li>
+            <li>Personalized deal recommendations based on your interests</li>
+            <li>Save time and money by finding the best deals in one place</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Benefits for Sellers</h2>
+        <ul>
+            <li>Reach a larger audience by listing your deals on DealSite</li>
+            <li>Boost your sales with targeted promotions</li>
+            <li>Easy and intuitive deal listing process</li>
+            <li>Gain insights and analytics on deal performance</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Get Started Today!</h2>
+        <p>Join the DealSite community and never miss out on the best deals again. Whether you're a deal hunter or a seller looking to reach more customers, DealSite is the perfect platform for you.
+        <strong>
+            Click on the sign-up button to send your details and get started with registration, Login credentials.
+        </strong> 
+        </p>
+        <a href="/contact" class="cta">Sign Up Now</a>
+    </div>
+</div>
+
+</body>
+</html>
+
+{% endblock %}

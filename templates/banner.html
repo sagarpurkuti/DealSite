@@ -1,0 +1,77 @@
+{% extends 'admin.html' %}
+
+{% block title %}
+Add banner/carousel
+{% endblock title %}
+
+{% block view %}
+
+<style>
+
+    h1{
+        margin-left: 20px;
+    }
+
+    .form, table{
+        margin-left: 25px;
+    }
+
+    .delete-btn{
+        margin-right: 15px;
+    }
+</style>
+<section class="home">
+
+    <div class="text">Welcome Admin</div>
+
+    <form method="post" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+        <input type="file" name="image">
+        <label for="url"> URL:</label>
+        <input type="text" name="link">
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h1 class="text">Let's Update a Banner on HomePage</h1>
+
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Banners</th>
+                <th>link</th>
+                <th>Actions</th>
+            </tr>
+            {% for banner in banners %}
+            <tr>       
+                <td>
+                    <img class="deal-image" src="{{banner.image.url}}" height="200px" width="80%">
+                </td>
+                
+                <td style="width: 100px;">
+                    <a href="{{banner.url}}" >{{banner.url}}</a>
+                </td>
+
+                <td>
+                    <a href="{% url 'delete_banner' banner.id %}" class="action-btn delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div> 
+</section>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+    
+
+
+

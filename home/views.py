@@ -6,6 +6,7 @@ from home.models import Contact
 from django.contrib import messages # type: ignore
 from home.models import Deal
 from home.models import Banner
+from django.db.models import Q
 
 
 #usename: sagar and password:djangosagar10
@@ -13,8 +14,9 @@ from home.models import Banner
 def index(request):
 
     banner=Banner.objects.all()
-    
-    return render(request, 'index.html',{'banners':banner})
+    is_logged_in = request.user.is_authenticated  
+
+    return render(request, 'index.html',{'banners':banner,'is_logged_in':is_logged_in})
     #return HttpResponse("This is homepage")
 
 def breadfruit(request, username):
@@ -58,6 +60,13 @@ def dashboard(request):
     
     user = request.user
     deals =Deal.objects.filter(user=user)
+
+    if request.GET.get('search'):
+            search=request.GET.get('search')
+            deals=deals.filter(
+                  Q(title__icontains=search)|
+                  Q(description__icontains=search)
+            )
     
     return render(request, 'dashboard.html',{'deals': deals})
 

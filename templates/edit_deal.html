@@ -1,63 +1,90 @@
 {% extends 'admin.html' %}
 
-{% block title %}
-Edit and update page
-{% endblock title %}
+{% block title %}Edit Deal{% endblock title %}
 
-
-{% block body%}
-<!-- Edit Deal Form -->
-<section class="home">
-
-    <form id="editDealForm" method="POST" enctype="multipart/form-data" style=" margin-left:100px; margin-right: 100px;">
-        <h1>Please perform your edit and Update</h1>
-
-
-        {% csrf_token %}
-
-        <div class="mb-3">
-            <label for="edit_title" class="form-label">Title:</label>
-            <input value="{{deal.title}}" type="text" class="form-control" id="edit_title" name="title" >
-        </div>
-
-        <div class="mb-3">
-            <label for="edit_description" class="form-label">Description:</label>
-            <textarea  class="form-control" id="edit_description" name="description" >{{deal.description}}</textarea>
-        </div>
-
-        <!-- <div class="mb-3">
-            <label for="edit_images" class="form-label">Images:</label>
-            <input type="file" class="form-control" id="edit_images" name="images">
-        </div> -->
-
-        <div class="mb-3">
-            <label for="edit_images" class="form-label">Current Image:</label>
-            {% if deal.images %}
-                <div>
-                    <img src="{{ deal.images.url }}" alt="Current Image" style="max-width: 200px; max-height: 200px;">
-                </div>
-            {% else %}
-                <p>No image uploaded.</p>
-            {% endif %}
-            <label for="edit_images" class="form-label mt-2">Upload New Image:</label>
-            <input type="file" class="form-control" id="edit_images" name="images">
-        </div>
-        
-        <div class="mb-3">
-            <label for="edit_code" class="form-label">Code:</label>
-            <textarea class="form-control" id="edit_code" name="code">{{deal.code}}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="edit_Url" class="form-label">URL:</label>
-            <textarea class="form-control" id="edit_url" name="link">{{deal.url}}</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-
-    </form>
-</section>
-
-{% endblock %}
-
+{% block body %}
+<style>
+    .form-container {
+        background: #fff;
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+    .form-label { font-weight: 600; color: #2d3436; }
+    .form-control { border-radius: 12px; border: 1.5px solid #eee; padding: 0.75rem 1rem; }
+    .form-control:focus { border-color: #0d6efd; box-shadow: 0 0 0 4px rgba(13,110,253,0.08); }
     
+    .current-img-preview {
+        border-radius: 15px;
+        overflow: hidden;
+        border: 2px solid #eee;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<section class="home px-4">
+    <div class="form-container fade-in">
+        <h2 class="fw-bold mb-4 text-primary"><i class="bi bi-pencil-square me-2"></i>Update Deal</h2>
+        <p class="text-muted mb-5">Refine your promotion details and keep your audience engaged.</p>
+
+        <form id="editDealForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row g-4">
+                <div class="col-12">
+                    <label for="edit_title" class="form-label">Deal Title</label>
+                    <input value="{{deal.title}}" type="text" class="form-control" id="edit_title" name="title" required>
+                </div>
+                
+                <div class="col-12">
+                    <label for="edit_description" class="form-label">Detailed Description</label>
+                    <textarea class="form-control" id="edit_description" name="description" rows="4" required>{{deal.description}}</textarea>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label d-block">Current Image</label>
+                    {% if deal.images %}
+                    <div class="current-img-preview">
+                        <img src="{{ deal.images.url }}" alt="Current Image" style="max-width: 100%; height: 200px; object-fit: cover;">
+                    </div>
+                    {% else %}
+                    <p class="text-muted small">No image uploaded.</p>
+                    {% endif %}
+                    
+                    <label for="edit_images" class="form-label d-block mt-2">Replace Image (Optional)</label>
+                    <input type="file" class="form-control" id="edit_images" name="images">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="edit_code" class="form-label">Promo Code</label>
+                    <input type="text" class="form-control" id="edit_code" name="code" value="{{deal.code}}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="edit_url" class="form-label">Destination URL</label>
+                    <input type="url" class="form-control" id="edit_url" name="link" value="{{deal.url}}" required>
+                </div>
+
+                <div class="col-12 mt-5">
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm">
+                        UPDATE DEAL <i class="bi bi-check2-circle ms-2"></i>
+                    </button>
+                    <a href="{% url 'dashboard' %}" class="btn btn-light w-100 py-3 rounded-3 fw-bold mt-3 border text-decoration-none text-center">
+                        CANCEL
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

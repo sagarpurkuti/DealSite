@@ -1,4 +1,3 @@
-
 {% extends 'admin.html' %}
 
 {% block title %}
@@ -7,119 +6,232 @@ Seller Dashboard
 
 {% block view %}
 <style>
-    .add-deal-button {
-        background-color: #4CAF50;
+    .dashboard-header {
+        background: #fff;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .welcome-text h2 {
+        font-weight: 800;
+        color: #2d3436;
+        margin-bottom: 0.25rem;
+    }
+
+    .welcome-text p {
+        color: #636e72;
+        margin-bottom: 0;
+    }
+
+    .card-container {
+        background: #fff;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        border-top: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        color: #636e72;
+        padding: 1.25rem 1rem;
+    }
+
+    .table tbody td {
+        padding: 1.25rem 1rem;
+        vertical-align: middle;
+        color: #2d3436;
+        font-size: 0.9rem;
+    }
+
+    .deal-img-thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-action {
+        width: 35px;
+        height: 35px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        margin-right: 0.5rem;
+    }
+
+    .btn-edit {
+        background-color: #e3f2fd;
+        color: #0d6efd;
+    }
+
+    .btn-delete {
+        background-color: #fee2e2;
+        color: #ef4444;
+    }
+
+    .btn-action:hover {
+        transform: scale(1.1);
+    }
+
+    .search-bar {
+        background: #f8f9fa;
+        border: 1.5px solid #eee;
+        border-radius: 12px;
+        padding: 0.6rem 1rem;
+    }
+
+    .input-group-text-mic {
+        background: transparent;
         border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
+        color: #636e72;
         cursor: pointer;
-        border-radius: 5px;
     }
-    .container{
-        text-align: right;
-        margin-top: 20px;
-    }
-    
-    table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-left: 20px;
-            }
-
-            th, td {
-              padding: 15px;
-              text-align: left;
-              border-bottom: 1px solid #ddd;
-
-            }
-
-            th {
-              background-color: #99bde4; /* Blue */
-              color: black;
-              border-radius: 2px;
-            }
-
-            tr:hover {
-              background-color: #f2f2f2; /* Light gray */
-            }
-
 </style>
 
-<section class="home">
-    {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert">
-            <strong>{{ message }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+<section class="home px-4">
+    <div class="dashboard-header mt-4">
+        <div class="welcome-text">
+            <h2>Welcome, Admin</h2>
+            <p>Manage your active deals and promotions</p>
         </div>
-    {% endfor %}
-    {% endif %}
-    <div class="text">Welcome Admin</div>
-      
-
-    <!-- Add deal container -->
-    <div class="container">
-        <a href="{% url 'addDeal' %}">
-            <button class="add-deal-button">ADD DEAL</button>
-        </a>
+        <div>
+            <a href="{% url 'addDeal' %}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                <i class="bi bi-plus-lg me-2"></i> ADD NEW DEAL
+            </a>
+        </div>
     </div>
 
+    <div class="card-container mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Active Deals</h4>
+            
+            <form class="d-flex" method="GET" action="">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 rounded-start-pill">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" id="searchInput" name="search" class="form-control border-start-0 py-2" 
+                           placeholder="Search deals..." value="{{ request.GET.search }}">
+                    <button type="button" id="micButton" class="btn bg-white border border-start-0 rounded-end-pill px-3">
+                        <i class="bi bi-mic text-primary"></i>
+                    </button>
+                    <button type="submit" id="searchButton" class="d-none"></button>
+                </div>
+            </form>
+        </div>
 
-
-      <h1 class="text" style="margin-left: 20px;">Active Deals:</h1>
-      
-      <div class="table-responsive">
-        <table>
-            <tr>
-                <th>Images</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Code</th>
-                <th>url</th>
-                <th>Actions</th>
-            </tr>
-            {% for deal in deals %}
-            <tr>
-                <td><img class="deal-image" src="{{deal.images.url}}" height="100px" width="100px"></td>
-                <td>{{ deal.title}}</td>
-                <td>{{ deal.description }}</td>
-                <td>{{ deal.code }}</td>
-                <td><a href="{{deal.url}}" target="_blank">{{deal.url}}</a></td>
-                <td>
-                  <!-- Edit button -->
-                  <a href="{% url 'edit_deal' deal.id %}" class="sssaction-btn edit-btn" id="editButton">Edit</a>
-                  <!-- Delete button -->
-                  <a href="{% url 'delete_deal' deal.id %}" class="action-btn delete-btn">Delete</a>
-              </td>
-            </tr>
-            {% endfor %}
-        </table>
-      </div> 
-
-
-
-
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 80px">Image</th>
+                        <th>Deal Details</th>
+                        <th>Promo Code</th>
+                        <th>Target URL</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deal in deals %}
+                    <tr>
+                        <td>
+                            <img src="{{deal.images.url}}" class="deal-img-thumb" alt="Deal">
+                        </td>
+                        <td>
+                            <div class="fw-bold">{{ deal.title }}</div>
+                            <div class="text-muted small text-truncate" style="max-width: 300px;">{{ deal.description }}</div>
+                        </td>
+                        <td>
+                            {% if deal.code %}
+                            <span class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-2">
+                                {{ deal.code }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted small italic">No code</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{deal.url}}" target="_blank" class="text-decoration-none small">
+                                <i class="bi bi-link-45deg me-1"></i>Visit Link
+                            </a>
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'edit_deal' deal.id %}" class="btn-action btn-edit text-decoration-none" title="Edit">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a href="{% url 'delete_deal' deal.id %}" class="btn-action btn-delete text-decoration-none" title="Delete"
+                               onclick="return confirm('Are you sure you want to delete this deal?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="text-muted">
+                                <i class="bi bi-box-seam display-4 d-block mb-3 opacity-50"></i>
+                                <p>No deals found. Start by adding your first promotion!</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
+
+<script>
+    // Speech-to-Text Integration
+    const micButton = document.getElementById("micButton");
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+
+    if (micButton) {
+        micButton.addEventListener("click", () => {
+            if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+
+                recognition.lang = "en-US";
+                recognition.interimResults = false;
+                
+                micButton.innerHTML = '<i class="bi bi-record-circle text-danger"></i>';
+
+                recognition.start();
+
+                recognition.onresult = (event) => {
+                    let speechResult = event.results[0][0].transcript;
+                    speechResult = speechResult.replace(/\.$/, "");
+                    searchInput.value = speechResult;
+                    searchButton.click();
+                };
+
+                recognition.onend = () => {
+                    micButton.innerHTML = '<i class="bi bi-mic text-primary"></i>';
+                };
+
+                recognition.onerror = (event) => {
+                    console.error("Speech recognition error:", event.error);
+                    micButton.innerHTML = '<i class="bi bi-mic text-primary"></i>';
+                };
+            } else {
+                alert("Speech Recognition is not supported in your browser.");
+            }
+        });
+    }
+</script>
 {% endblock view %}
-
-
-
-  
-
-  
-
-
-
-
-
-
-
-
-
